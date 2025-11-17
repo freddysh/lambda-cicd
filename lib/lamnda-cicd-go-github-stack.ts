@@ -79,7 +79,7 @@ export class PipelineStack extends cdk.Stack {
     });
 
     const sourceOutput = new codepipeline.Artifact();
-    const buildOutput = new codepipeline.Artifact();
+    const buildOutput = new codepipeline.Artifact("BuildArtifact");
 
     // 4.a) Source action: GitHub (uses token in SecretsManager: 'github-token')
     pipeline.addStage({
