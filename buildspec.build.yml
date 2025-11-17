@@ -15,7 +15,7 @@ phases:
       - GOOS=linux GOARCH=amd64 go build -o bootstrap main.go
       - cd ..
       - zip -r lambda.zip lambda/bootstrap
-      - echo "Build artifact created: lambda.zip"
+      - echo "Build artifact created lambda.zip"
 
 artifacts:
   files:
