@@ -3,7 +3,7 @@ version: 0.2
 phases:
   install:
     runtime-versions:
-      python: latest   # Necesitas poner algo válido aquí (aunque no uses python)
+      python: latest
     commands:
       - echo "Installing tools"
       - yum install -y golang zip
