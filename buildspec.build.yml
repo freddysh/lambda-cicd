@@ -9,6 +9,13 @@ phases:
       - apt-get update -y
       - apt-get install -y golang-go zip
 
+  pre_build:
+    commands:
+      - echo "Downloading Go modules"
+      - cd lambda
+      - go mod tidy
+      - cd ..
+
   build:
     commands:
       - echo "Building lambda (Go)"
