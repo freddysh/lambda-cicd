@@ -6,7 +6,8 @@ phases:
       python: latest
     commands:
       - echo "Installing tools"
-      - yum install -y golang zip
+      - apt-get update -y
+      - apt-get install -y golang-go zip
 
   build:
     commands:
@@ -15,7 +16,7 @@ phases:
       - GOOS=linux GOARCH=amd64 go build -o bootstrap main.go
       - cd ..
       - zip -r lambda.zip lambda/bootstrap
-      - echo "Build artifact created lambda.zip"
+      - echo "Build artifact created: lambda.zip"
 
 artifacts:
   files:
