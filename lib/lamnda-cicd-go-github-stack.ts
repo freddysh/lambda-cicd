@@ -118,7 +118,8 @@ export class PipelineStack extends cdk.Stack {
         new cpactions.CodeBuildAction({
           actionName: "Deploy",
           project: deployProject,
-          input: buildOutput, // <-- deployProject will receive the lambda.zip as source
+          input: sourceOutput,   // ← ahora recibe el repo completo (incluyendo buildspec.deploy.yml)
+          extraInputs: [buildOutput], // ← aquí recibe el lambda.zip
         }),
       ],
     });
