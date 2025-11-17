@@ -1,0 +1,28 @@
+version: 0.2
+
+env:
+  variables:
+    FUNCTION_NAME: "lambda-go-hola"   # cambiar si es necesario
+    ALIAS_NAME: "live"
+
+phases:
+  install:
+    commands:
+      - echo "Installing awscli"
+      - yum install -y awscli unzip
+  build:
+    commands:
+      - echo "Preparing deploy artifact"
+      # CodeBuild coloca artifacts en $CODEBUILD_SRC_DIR
+      - ls -la
+      - if [ -f lambda.zip ]; then echo "lambda.zip found"; else echo "No lambda.zip in root, searching..."; fi
+      - echo "Updating function code"
+      - aws lambda update-function-code --function-name "$FUNCTION_NAME" --zip-file fileb://lambda.zip
+      - echo "Publishing version"
+      - VER=$(aws lambda publish-version --function-name "$FUNCTION_NAME" --query Version --output text)
+      - echo "Published version $VER"
+      - echo "Updating alias $ALIAS_NAME"
+      - aws lambda update-alias --function-name "$FUNCTION_NAME" --name "$ALIAS_NAME" --function-version "$VER" || aws lambda create-alias --function-name "$FUNCTION_NAME" --name "$ALIAS_NAME" --function-version "$VER"
+artifacts:
+  files:
+    - '**/*'

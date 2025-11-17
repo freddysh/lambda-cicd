@@ -1,0 +1,21 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      # no matter, we'll install go
+    commands:
+      - echo "Installing tools"
+      - yum install -y golang zip
+  build:
+    commands:
+      - echo "Building lambda (Go)"
+      - cd lambda
+      - GOOS=linux GOARCH=amd64 go build -o bootstrap main.go
+      - cd ..
+      - zip -r lambda.zip lambda/bootstrap
+      - echo "Build artifact created: lambda.zip"
+
+artifacts:
+  files:
+    - lambda.zip
