@@ -112,14 +112,14 @@ export class PipelineStack extends cdk.Stack {
     });
 
     // 4.c) Deploy action: CodeBuild runs aws cli to update lambda using buildOutput
+   
     pipeline.addStage({
       stageName: "Deploy",
       actions: [
         new cpactions.CodeBuildAction({
           actionName: "Deploy",
           project: deployProject,
-          input: sourceOutput,   // ← ahora recibe el repo completo (incluyendo buildspec.deploy.yml)
-          extraInputs: [buildOutput], // ← aquí recibe el lambda.zip
+          input: buildOutput,   // ✔ aquí viene lambda.zip
         }),
       ],
     });
