@@ -3,10 +3,11 @@ version: 0.2
 phases:
   install:
     runtime-versions:
-      # no matter, we'll install go
+      python: latest   # Necesitas poner algo válido aquí (aunque no uses python)
     commands:
       - echo "Installing tools"
       - yum install -y golang zip
+
   build:
     commands:
       - echo "Building lambda (Go)"
