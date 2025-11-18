@@ -1,40 +1,32 @@
 version: 0.2
 
-env:
-  variables:
-    FUNCTION_NAME: "lambda-go-hola"
-    ALIAS_NAME: "live"
-
 phases:
   install:
     commands:
-      - echo "Installing awscli"
-      - apt-get update -y
-      - apt-get install -y awscli unzip
+      - echo "Deploy phase started"
+      - ls -R .
 
   build:
     commands:
-      - echo "Preparing deploy artifact"
+      - echo "Buscando lambda.zip en artifact..."
+      - ZIP_PATH=$(find . -name "lambda.zip" | head -n 1)
+      - echo "ZIP encontrado en: $ZIP_PATH"
 
-      # List files delivered by CodePipeline
-      - echo "Listing received artifacts"
-      - ls -la
+      - echo "Actualizando Lambda..."
+      - aws lambda update-function-code \
+          --function-name lambda-go-hola \
+          --zip-file fileb://$ZIP_PATH
 
-      # lambda.zip must be here in the working directory
-      - echo "Checking lambda.zip"
-      - if [ ! -f lambda.zip ]; then echo "ERROR lambda.zip not found!"; exit 1; fi
+      - echo "Publicando nueva version..."
+      - VERSION=$(aws lambda publish-version --query Version --output text)
+      - echo "Version: $VERSION"
 
-      - echo "Updating function code"
-      - aws lambda update-function-code --function-name "$FUNCTION_NAME" --zip-file fileb://lambda.zip
-
-      - echo "Publishing version"
-      - VER=$(aws lambda publish-version --function-name "$FUNCTION_NAME" --query Version --output text)
-      - echo "Published version $VER"
-
-      - echo "Updating alias $ALIAS_NAME"
-      - aws lambda update-alias --function-name "$FUNCTION_NAME" --name "$ALIAS_NAME" --function-version "$VER" \
-        || aws lambda create-alias --function-name "$FUNCTION_NAME" --name "$ALIAS_NAME" --function-version "$VER"
+      - echo "Actualizando alias live..."
+      - aws lambda update-alias \
+          --function-name lambda-go-hola \
+          --name live \
+          --function-version $VERSION
 
 artifacts:
   files:
-    - '**/*'
+    - "**/*"
