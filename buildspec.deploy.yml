@@ -16,6 +16,8 @@ phases:
     commands:
       - echo "Preparing deploy artifact"
       - echo "Build artifact directory $CODEBUILD_SRC_DIR_BuildArtifact"
+      - echo $CODEBUILD_SRC_DIR_BuildArtifact
+      
       - cp $CODEBUILD_SRC_DIR_BuildArtifact/lambda.zip .
       - ls -la
       - echo "Updating function code"
