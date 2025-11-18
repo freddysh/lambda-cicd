@@ -21,7 +21,7 @@ phases:
       - ls -la $CODEBUILD_SRC_DIR_BuildArtifact
 
       - echo "Searching lambda.zip..."
-      - find / -name "lambda.zip" 2>/dev/null
+      - find "$CODEBUILD_SRC_DIR" -name "lambda.zip"
       
       # Copy lambda.zip from BuildArtifact
       - cp $CODEBUILD_SRC_DIR_BuildArtifact/lambda.zip .
