@@ -25,4 +25,5 @@ phases:
 artifacts:
   files:
     - lambda.zip
+  base-directory: .
   discard-paths: no
