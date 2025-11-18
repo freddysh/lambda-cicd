@@ -15,11 +15,11 @@ phases:
   build:
     commands:
       - echo "Preparing deploy artifact"
-      - echo "Build artifact directory $CODEBUILD_SRC_DIR_BuildArtifact"
-      - echo  $CODEBUILD_SRC_DIR_BuildArtifact
-      
-      - cp $CODEBUILD_SRC_DIR_BuildArtifact/lambda.zip .
-      - ls -la
+      - echo "Build artifact directory $CODEBUILD_SRC_DIR"
+      - echo  $CODEBUILD_SRC_DIR
+
+      - ls -la $CODEBUILD_SRC_DIR
+      - cp $CODEBUILD_SRC_DIR/lambda.zip .
       - echo "Updating function code"
       - aws lambda update-function-code --function-name "$FUNCTION_NAME" --zip-file fileb://lambda.zip
 
