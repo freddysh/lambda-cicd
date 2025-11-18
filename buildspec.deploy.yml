@@ -22,7 +22,7 @@ phases:
 
       # lambda.zip must be here in the working directory
       - echo "Checking lambda.zip"
-      - if [ ! -f lambda.zip ]; then echo "ERROR: lambda.zip not found!"; exit 1; fi
+      - if [ ! -f lambda.zip ]; then echo "ERROR lambda.zip not found!"; exit 1; fi
 
       - echo "Updating function code"
       - aws lambda update-function-code --function-name "$FUNCTION_NAME" --zip-file fileb://lambda.zip
