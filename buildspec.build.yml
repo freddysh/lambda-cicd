@@ -16,10 +16,11 @@ phases:
       - GOOS=linux GOARCH=amd64 go build -o bootstrap main.go
       - cd ..
 
-      # Crear lambda.zip con SOLO el bootstrap
-      - zip lambda.zip lambda/bootstrap
+      # Crear lambda.zip en el directorio raíz
+      - zip -j lambda.zip lambda/bootstrap
 
       - echo "lambda.zip generado correctamente"
+      - ls -la
 
 artifacts:
   files:
