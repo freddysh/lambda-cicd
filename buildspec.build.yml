@@ -5,25 +5,21 @@ phases:
     runtime-versions:
       python: latest
     commands:
-      - echo "Installing tools"
       - apt-get update -y
       - apt-get install -y golang-go zip
 
-  pre_build:
-    commands:
-      - echo "Downloading Go modules"
-      - cd lambda
-      - go mod tidy
-      - cd ..
-
   build:
     commands:
-      - echo "Building lambda (Go)"
+      - echo "Building Go Lambda"
+
       - cd lambda
       - GOOS=linux GOARCH=amd64 go build -o bootstrap main.go
       - cd ..
-      - zip -r lambda.zip lambda/bootstrap
-      - echo "Build artifact created lambda.zip"
+
+      # Crear lambda.zip con SOLO el bootstrap
+      - zip lambda.zip lambda/bootstrap
+
+      - echo "lambda.zip generado correctamente"
 
 artifacts:
   files:
