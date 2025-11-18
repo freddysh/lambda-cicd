@@ -10,7 +10,7 @@ phases:
     commands:
       - echo "Buscando lambda.zip en artifact..."
       - ZIP_PATH=$(find . -name "lambda.zip" | head -n 1)
-      - echo "ZIP encontrado en: $ZIP_PATH"
+      - echo "ZIP encontrado en $ZIP_PATH"
 
       - echo "Actualizando Lambda..."
       - aws lambda update-function-code \
@@ -19,7 +19,7 @@ phases:
 
       - echo "Publicando nueva version..."
       - VERSION=$(aws lambda publish-version --query Version --output text)
-      - echo "Version: $VERSION"
+      - echo "Version $VERSION"
 
       - echo "Actualizando alias live..."
       - aws lambda update-alias \
