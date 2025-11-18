@@ -2,18 +2,27 @@ version: 0.2
 
 phases:
   install:
+    runtime-versions:
+      python: latest
     commands:
-      - echo "Install phase"
-      - yum install -y golang
+      - apt-get update -y
+      - apt-get install -y golang-go zip
 
   build:
     commands:
-      - echo "Compiling Go..."
+      - echo "Building Go Lambda"
+
       - cd lambda
-      - go build -o bootstrap main.go
-      - zip lambda.zip bootstrap
+      - GOOS=linux GOARCH=amd64 go build -o bootstrap main.go
+      - cd ..
+
+      # Crear lambda.zip en el directorio raíz
+      - zip -j lambda.zip lambda/bootstrap
+
+      - echo "lambda.zip generado correctamente"
+      - ls -la
 
 artifacts:
   files:
-    - lambda/lambda.zip
+    - lambda.zip
   discard-paths: no
