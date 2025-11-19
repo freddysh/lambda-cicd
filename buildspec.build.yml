@@ -18,3 +18,4 @@ phases:
 artifacts:
   files:
     - lambda/lambda.zip
+    - buildspec.deploy.yml
