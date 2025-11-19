@@ -3,30 +3,27 @@ version: 0.2
 phases:
   install:
     commands:
-      - echo "Deploy phase started"
-      - ls -R .
+      - echo "Deploy iniciado"
 
   build:
     commands:
-      - echo "Buscando lambda.zip en artifact..."
+      - echo "Artefactos presentes:"
+      - ls -R .
+
       - ZIP_PATH=$(find . -name "lambda.zip" | head -n 1)
-      - echo "ZIP encontrado en $ZIP_PATH"
+      - echo "ZIP encontrado $ZIP_PATH"
 
       - echo "Actualizando Lambda..."
       - aws lambda update-function-code \
           --function-name lambda-go-hola \
           --zip-file fileb://$ZIP_PATH
 
-      - echo "Publicando nueva version..."
+      - echo "Publicando version..."
       - VERSION=$(aws lambda publish-version --query Version --output text)
-      - echo "Version $VERSION"
+      - echo "Version publicada $VERSION"
 
       - echo "Actualizando alias live..."
       - aws lambda update-alias \
           --function-name lambda-go-hola \
           --name live \
           --function-version $VERSION
-
-artifacts:
-  files:
-    - "**/*"
