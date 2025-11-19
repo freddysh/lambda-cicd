@@ -15,7 +15,9 @@ phases:
       - echo "Empaquetando lambda.zip"
       - zip lambda.zip bootstrap
 
+      - echo "Mostrando estructura completa del artifact:"
+      - find . -maxdepth 5 -type f -print
 artifacts:
   files:
-    - lambda/lambda.zip
+    - lambda.zip
     - buildspec.deploy.yml
